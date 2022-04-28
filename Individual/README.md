@@ -29,34 +29,48 @@ For my individual project, I decided to make a service that resembles the now-de
 
 #### Context model
 As displayed in the image underneath, the system in it’s entirety consists of a central service and a collection of game-specific services that the central service redirects the Nintendo DS systems to. Both the user and the Nintendo DS are expected to interact with the central service: the former by using the web-based front-end and the latter by connecting to the gateway. Only the central service and it’s accompanied databases are part of the scope of this project.
+
  ![Context model](https://i.imgur.com/gufo68C.png)
 
 #### Container model
 Zooming in on the project scope reveals that the project scope consists of a web-based front-end written in a JavaScript framework, a collection of web API’s and the databases that accompany these API’s. The front-end also communicates with an outside authentication system to validate the user’s identity.
+
 ![Container model](https://i.imgur.com/H6rQjRM.png)
 
 #### Component model
-Zooming in on the project once more shows that the central service consists of a number of API’s; each being it’s own microservice. All of these API’s are controlled by the endpoint; the gateway responsible for routing incoming requests to the appropriate API. 
+Zooming in on the project once more shows that the central service consists of a number of API’s; each being it’s own microservice. All of these API’s are controlled by the endpoint; the gateway responsible for routing incoming requests to the appropriate API.
+
 ![Component model](https://i.imgur.com/n1G7kWj.png) 
 
 ### Frontend project
 [TBA]
 
 ### Backend project
-[TBA]
+The back-end project consists of various microservices that are indirectly accessible through a gateway. All of the microservices use the .NET Core framework and thus are written in C#. Each microservice consists of either the first two or all three of the following layers:
+  - The API layer, responsible for listening for, decyphering and responding to incoming requests.
+  - The service layer, containing all microservice-specific logic.
+  - The repository layer, responsible for making database calls using the ORM.
+
+In order to allow individual layers to freely be replaced/changed, abstraction has been implemented using the factory method. Database calls are made using Entity Framework as the ORM, but is interchangeable because of the implementation of the repository pattern.
 
 ## Software quality
+The goal of this learning outcome is to use a variety of tools to monitor the quality. This includes, testing, static code analisys and security.
 
 ### Security
 [TBA]
+
+A research paper written by me on secure communication between networks can be found here. [IMPORT LINK]
 
 ### Testing
 [TBA]
 
 ### Code quality
-[TBA]
+In order to verify the quality of the written code, SonarCloud is used. This service part of the CI/CD pipeline, and is triggered with every push to the development branch. SonarCloud builds, tests and scans the code for vunerabilities, bugs, code smells and dublicated code. It then creates a detailed report consisting of all issues found, their locations, as well as possible solutions, which can then be viewed on the SonarCloud website. This information can then be used to improve the code quality.
+
+![SonarCloud scan results](https://i.imgur.com/s30JAXx.png)
 
 ## Continuous integration and deployment
+The goal of this learning outcome is to design and implement a CI/CD pipeline that is speficically made for this project capable of performing both integration and deployment. For the sake of this semester, deployment to Docker Hub is sufficient.
 
 ### Implementation
 In order to automate the release process of my application, I implemented two CI/CD pipeline in my projects: a development pipeline and a production pipeline. As I made my code available in GitHub, this has been done with GitHub Actions. In each of my projects, I created two environments: Development and Production. These environments contain security measures such as environment secrets and security measures that will apply to each pipeline.
