@@ -62,12 +62,14 @@ The goal of this learning outcome is to use a variety of tools to monitor the qu
 A research paper written by me on secure communication between networks can be found here. [IMPORT LINK]
 
 ### Testing
-[TBA]
+In order to validate the code's functionality and ability to handle unexpected scenarios, the code needs to be thorougly tested. For the back-end, I decided to make use of the Xunit testing framework as it's easy to set up and allows for easy input data manipulation to minimize the amount of test logic that needs to be rewritten. There are two types of tests I created: unit tests and integration tests. The unit tests are meant to be small and only test a single piece of functionality, whereas the integration tests are meant for testing an entire sequence of actions.
+
+![Test results](https://i.imgur.com/dv2BVM6.png)
 
 ### Code quality
-In order to verify the quality of the written code, SonarCloud is used. This service part of the CI/CD pipeline, and is triggered with every push to the development branch. SonarCloud builds, tests and scans the code for vunerabilities, bugs, code smells and dublicated code. It then creates a detailed report consisting of all issues found, their locations, as well as possible solutions, which can then be viewed on the SonarCloud website. This information can then be used to improve the code quality.
+In order to verify the quality of the written code, SonarCloud is used. This service part of the CI/CD pipeline, and is triggered with every push to the development branch. SonarCloud builds, tests and scans the code for vunerabilities, bugs, code smells and dublicated code. It then creates a detailed report consisting of all issues found, their locations, as well as possible solutions, which can then be viewed on the SonarCloud website. This information can then be used to improve the code quality. On top of this, it also runs the tests written for the project and determines the percentage of code blocks that these tests cover.
 
-![SonarCloud scan results](https://i.imgur.com/s30JAXx.png)
+![SonarCloud scan results](https://i.imgur.com/jcoiMxs.png)
 
 ## Continuous integration and deployment
 The goal of this learning outcome is to design and implement a CI/CD pipeline that is speficically made for this project capable of performing both integration and deployment. For the sake of this semester, deployment to Docker Hub is sufficient.
@@ -198,7 +200,28 @@ After the deployment request has been approved, the pipeline will continue with 
           name: build
 ```
  
- [INSERT DOCKER HUB UPLOAD HERE]
+The method of publishing the build varies widely depending on the destination. For the individual project, I decided to simply upload the image to my Docker Hub. In order to accomplish this, the machine first needs to login using my Docker Hub login details, which are stored in the production environment as secrets. After a successfull login attempt, the metadata of the Docker Hub repository gets extracted. Finally, the Docker image gets built and uploaded to the Docker Hub repository.
+```yaml
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: blurrito/centralservice.authentication
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+```
  
 Alternatively, in my group project, I configured the pipeline to use an FTP client to upload the successful build to the .NET hosting server of Fontys. In order to prevent any dublicate file issues, the FTP client has been configured to first clear the destination directory.
 ```yaml
@@ -216,4 +239,9 @@ Alternatively, in my group project, I configured the pipeline to use an FTP clie
 ```
 
 ## Professional
-[TBA]
+The goal of this learning outcome is to work in a professional manner. This includes, but is not limited to, working using an agile method and asking for, writing down and processing feedback from stakeholders.
+
+### Feedback
+Throughout the semester, I had meetings with the stakeholder(s) at various occasions to show my progress, as well as obtain feedback. After these conversations, I would convert my notes into a coherent story containing as many feedback points as possible and put this in FeedPulse so the stakeholders would be able to view and rate this story.
+
+![FeedPulse](https://i.imgur.com/KEOyD4b.png)
