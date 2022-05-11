@@ -59,9 +59,12 @@ As the table above suggests, only a small selection of domains makes use of SSL 
 
 ![Nintendo DS unencrypted packet](https://i.imgur.com/XAcFzfJ.png)
 
-The following packet capture shows that the Nintendo DS makes use of SSLv3 as it's cryptographic protocol. It also shows the Nintendo DS has two available cypher suites, both using RSA with RC4.
+In case the domain does make use of SSL security, the Nintendo DS will initiate the handshake procedure by sending a client hello message similar to the one shown in the image below. It also shows that the Nintendo DS makes use of SSLv3 as it's cryptographic protocol, as well as two available cypher suites, both using RSA with RC4. Finally, the Nintendo DS expects a server certificate that is signed by Nintendo's intermediate certificate, and will abort the connection attempt if not given or valid.
 
 ![Nintendo DS client hello](https://i.imgur.com/X8tzuoD.png)
+
+### Conclusion
+The Nintendo DS makes very little use of (SSL) security while communicating with the profile and multiplayer services. The servers that do make use of SSL security use the long since depricated SSLv3 and RSA with RC4 cipher suites. Of the servers that do not make use of SSL security, only a small number implements encryption of messages in any capacity, with the majority sending packets in plain text. While most services require authentication before they can be used, the algorithms for this process are public knowledge, making this insecure as well. While implementing the majority of servers would be possible without much trouble, there are severe security threads without a (feasible) solution.
 
 
 ## How can one make the Nintendo DS accept a secured connection?
