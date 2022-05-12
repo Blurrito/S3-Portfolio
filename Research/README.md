@@ -82,6 +82,7 @@ The first solution involves altering the executable of a game. By altering all m
 However, this method also comes with a few disadvantages. First, the game gets stripped of what little security was implemented, making it an even bigger security threat. Second, due to the nature of how Nintendo DS cartridges work, the data on them cannot be overwritten. This means that legitimate cartridges cannot connect to the server using this method. Finally, additional hardware is needed to play the altered game files. Said hardware is deemed illegal in most countries, and thus not easily obtainable, making this an investment.
 
 #### Setup process
+In order to set up this method, the user needs to have a dumped copy of a game that has online functionality, as well as a piece of software named WfcPatcher. This program has the ability to change the URL's in the game executable based on the user's input. If the user adds `NoSSL` to the filename of the game dump, then drags the file to the WfcPatcher executable, it will remove all mentions of `https` and replace them with `http`. This effectively forces the Nintendo DS to initiate unsecured connections and send unencrypted messages.
 
 #### Production example
 The image below shows a network capture of a Nintendo DS connecting to `nas.nintendowifi.net` without any modifications. As shown, the Nintendo DS and the server perform the handshake prodecure before exchanging encrypted messages with one another.
@@ -275,5 +276,23 @@ namespace NdsSslConnection
 ```
 
 ### Conclusion
+Despite the lack of an official server certificate/private key combination, there are methods to circumvent (or completely negate) the SSL security implemented in the Nintendo DS. While both methods have both advantages and disadvantages, the lack of need for any additional hardware makes the second method inherently more favourable. While this method has a particularly steep learning curve due to the lack of any documentation on the topic, once implemented, it requires no additional modifications on the user's side.
 
 ## Sources
+[Computer network](https://en.wikipedia.org/wiki/Computer_network)
+
+[OSI model](https://en.wikipedia.org/wiki/OSI_model)
+
+[Network node](https://en.wikipedia.org/wiki/Node_(networking))
+
+[Transport Layer Security (TLS/SSL)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+
+[Public key cryptography (public & private keys)](https://en.wikipedia.org/wiki/Public-key_cryptography)
+
+[Chain of trust](https://en.wikipedia.org/wiki/Chain_of_trust)
+
+[Root certificate](https://en.wikipedia.org/wiki/Root_certificate)
+
+[Nintendo DS certificate verification oversight](https://github.com/KaeruTeam/nds-constraint)
+
+[WfcPatcher](https://github.com/AdmiralCurtiss/WfcPatcher/releases)
