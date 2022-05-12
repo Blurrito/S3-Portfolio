@@ -59,7 +59,7 @@ The goal of this learning outcome is to use a variety of tools to monitor the qu
 ### Security
 [TBA]
 
-A research paper written by me on secure communication between networks can be found here. [IMPORT LINK]
+Two research documents, each about a topic related to the security of the Nintendo DS, can be found [here](https://github.com/Blurrito/S3-Portfolio/blob/main/Research/README.md).
 
 ### Testing
 In order to validate the code's functionality and ability to handle unexpected scenarios, the code needs to be thorougly tested. For the back-end, I decided to make use of the Xunit testing framework as it's easy to set up and allows for easy input data manipulation to minimize the amount of test logic that needs to be rewritten. There are two types of tests I created: unit tests and integration tests. The unit tests are meant to be small and only test a single piece of functionality, whereas the integration tests are meant for testing an entire sequence of actions.
