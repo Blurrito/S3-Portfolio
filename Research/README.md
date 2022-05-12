@@ -36,7 +36,7 @@ Certificates operate in tree-like structures. At the base of this structure is t
 
 ![Certificate chain of trust](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Chain_Of_Trust.svg/1920px-Chain_Of_Trust.svg.png)
 
-### Nintendo DS specifications
+### What sort of security does the Nintendo DS use
 During communications between the Nintendo DS and the server, the Nintendo DS connects to a variety of different domains. Between these domains, a variety of protocols is used. Following is a list containing a selection of these domains, the type of socket it uses, application protocol it uses and whether or not it’s secured using SSL.
 
 | Domain address                   | Socket type | Protocol type         | Uses SSL |
@@ -67,17 +67,213 @@ In case the domain does make use of SSL security, the Nintendo DS will initiate 
 The Nintendo DS makes very little use of (SSL) security while communicating with the profile and multiplayer services. The servers that do make use of SSL security use the long since depricated SSLv3 and RSA with RC4 cipher suites. Of the servers that do not make use of SSL security, only a small number implements encryption of messages in any capacity, with the majority sending packets in plain text. While most services require authentication before they can be used, the algorithms for this process are public knowledge, making this insecure as well. While implementing the majority of servers would be possible without much trouble, there are severe security threads without a (feasible) solution.
 
 
+
 ## How can one make the Nintendo DS accept a secured connection?
-Concerns
-Security
-Naturally, with the console being 18 years old at the time of writing this, it is to be expected that these specifications are antiquated. SSLv3 has been deprecated in 2015, and while it is still supported by modern operating systems, is only meant for legacy support. Both the WEP and WPA (v1) security protocols have been phased out, and are no longer supported by the majority of modems/routers. The RC4 cipher is no longer being supported by modern cryptographic protocols since 2015, after attacks on the algorithm started to weaken, or in some cases break, the RC4 in SSL/TLS. The cipher suite is disabled by default, but can be re-enabled through the registry, but this is highly discouraged. 
- 
-Establishing SSL connections
-When the Nintendo DS requests a secured connection to be made, it will validate the authenticity of the server certificate. Not only do we not have possession of this server certificate, it cannot be used without the accompanying private key, as we cannot decrypt the session key the Nintendo DS generates without it. This effectively makes impersonating the services that require SSL impossible. While most of the services on the Nintendo DS use unencrypted data streams, the few services that do make use of SSL are integral to the system. This means that, without these services working as expected, the Nintendo DS will fail to connect to the Nintendo Wi-Fi Connection service. To circumvent this problem, there are two solutions:
-Editing the ROM image of a game
-This solution aims to ignore SSL altogether by modifying the ROM image of a game. This is done by changing the static URL’s in the game’s code to different servers. This will cause the Nintendo DS to connect to said server without SSL.
-Using this method would completely remove the need to implement an SSL implementation on the server, making the server implementation considerably easier. There also exist tools that fully automate the replacement process, allowing users to make the necessary changes in an instant. On top of this, it also allows the domain name of the server to be customized.
-However, due to the ROM image of a game needing to be modified, this process needs to be repeated for every single game. On top of this, the process will not work for legitimate retail cartridges, as these cannot be edited. Users would need a flash cart with Wi-Fi capabilities or a computer with sufficient hardware capabilities to emulate Nintendo DS games in order to play these edited ROM images.
-Abusing a flaw
-As described earlier in this paper, certificates can act as an intermediate if it is set to allow this during the signing process. Under normal circumstances, a certificate signed by an invalid intermediate results in an invalid certificate. However, the Nintendo DS does not validate that the certificate used as intermediate is allowed to do so. This means that any certificate signed by Nintendo’s certificate with the accompanying private key will produce a certificate that the Nintendo DS will accept as authentic.
-This method would require very little work on the user’s end, only needing to set the DNS to the server’s IP address in the internet settings. It would also work on legitimate retail copies, as no modifications would need to be made to the ROM image of the game. However, this method would require significantly more experience in infrastructure and cybersecurity, and is difficult to properly implement without proper documentation or instructions.
+
+## What prevents a Nintendo DS from making a secured connection?
+When a Nintendo DS attempts to establish a secure connection, it will validate the certificate the server returns. In order for the Nintendo DS to accept the certificate as legitimate, it has to be signed by an intermediate certificate (and it's accompanying private key) that can be traced back to the Nintendo intermediate certificate via the chain of trust. As no authentic server certificate/private key combination is not publicly available, it is impossible to have a Nintendo DS accept a secured connection to a server other than Nintendo's official servers.
+
+## What solutions are available?
+In order to force the Nintendo DS to accept connections to these domains, two countermeasures have been created.
+
+### Editing the executable of a game
+The first solution involves altering the executable of a game. By altering all mentions of `https` to `http`, the Nintendo DS will attempt to connect to all servers using unsecured connections. Using this method means no security implementation is necessary on the server's end. This makes setting up a server significantly easier to do. It also allows for all domain names to be altered, allowing Nintendo DS systems to directly connect to a domain owned by the server owner without the need of an altered DNS list.
+
+However, this method also comes with a few disadvantages. First, the game gets stripped of what little security was implemented, making it an even bigger security threat. Second, due to the nature of how Nintendo DS cartridges work, the data on them cannot be overwritten. This means that legitimate cartridges cannot connect to the server using this method. Finally, additional hardware is needed to play the altered game files. Said hardware is deemed illegal in most countries, and thus not easily obtainable, making this an investment.
+
+#### Setup process
+
+#### Production example
+The image below shows a network capture of a Nintendo DS connecting to `nas.nintendowifi.net` without any modifications. As shown, the Nintendo DS and the server perform the handshake prodecure before exchanging encrypted messages with one another.
+![With SSL](https://i.imgur.com/8NO8AoM.png)
+
+The image below uses the same situation as before. The difference being that the game has been altered as to not use secured connections. Instead of initiating the handshake procedure, the game instead opens up an unsecured TCP connection. As shown, the message the Nintendo DS sends to the server is in plain text.
+![Without SSL](https://i.imgur.com/zF4h8XP.png)
+
+### Abusing a flaw in the certificate validation process.
+The second solution involves abusing a flaw in the Nintendo DS certificate verification process. When the Nintendo DS verifies the server certificate, it attempts to follow the chain of trust back to the Nintendo intermediate certificate. However, it does not verify if all of the certificates in the chain are allowed to act as an intermediate. This means that any certificate/private pair that can be traced back to the Nintendo intermediate certificate can be used to generate a server certificate that the Nintendo DS will accept. This method would mean no modifications are necessary on the client side for this method to work. This also means legitimate cartridges will be able to connect to the server using this method.
+
+This method too comes with a few disadvantages. First, this method would require the server owner to set up a custom DNS list, as the requested domain names do not exist anymore. Second, this method requires a certificate/private key pair that can be used to generate a server certificate. Finally, knowledge on how to generate a server certificate and implement it in a server is necessary to get the server running, which might be difficult due to the lacking documentation on the topic.
+
+#### Certificate generation process
+The following process is a recollection of steps I went through to generate a server certificate the Nintendo DS will accept. The following will be assumed:
+- The reader is in possession of a working OpenSSL installation.
+- The reader is in posession certificate/private key pair that can be traced back to Nintendo's intermediate certificate. This may be combined in `p12` format or split in `.csr` format for the certificate and `.key` format for the private key.
+- The target machine runs a copy of Windows. Some parts might differ with other operating systems.
+
+Furthermore, the certificate/private key combination will be referred to as `NWC.p12` from here on out.
+
+
+**1.** If the certificate/private key pair has already been separated in `.csr` and `.key` files, start at step 4. If not, it first needs to be split. To do so, use the following command:
+
+`openssl pkcs12 -in NWC.p12 -passin alpine -passout alpine -out keys.txt`
+
+**2.** If the command completed successfully, a keys.txt file should have been created the folder where the `NWC.p12` file is located. Open this file in a text editor, and create a new file in a hex editor (HxD is recommended). Select everything from the start of the first line to the end of the first `----CERTIFICATE END----` line (including the blank line underneath), copy it and paste it in the text segment of the new file in the hex editor. Finally, Save this file as `NWC.crt`.
+
+**3.** Create another new file in the hex editor and perform the same actions as with the `NWC.crt` file, but use everything underneath the previously selected segment instead. Save this file as `NWC.key`
+
+**4.** Once `NWC.csr` and `NWC.key` have been created, they can be used to generate a new server certificate. To start this process, use the following command to generate a 1024-bit RSA key for the new certificate:
+
+`openssl genrsa -out server.key 1024`
+
+- If the command has finished running successfully, a new file named `server.key` should have appeared in the same directory as the `NWC.p12` file. If it has, use the following command to generate a new certificate using the `server.key` file generated in the previous step:
+
+`openssl req -new -key server.key -out server.csr`
+
+During this process, a series of questions regarding the organization the certificate belongs to will be asked. The table underneath shows the values used by the official server certificate (and the certificate I generated), but can be customized if desired.
+| Question                 | Answer                                                 |
+|--------------------------|--------------------------------------------------------|
+| Country Name             | US                                                     |
+| State or Province        | Washington                                             |
+| Locality name            |                                                        |
+| Organization name        | Nintendo of America Inc.                               |
+| Organizational unit name | Nintendo CA                                            |
+| Common name              | Domain name or `*.*.*` for all subdomains              |
+| Email address            | ca@noa.nintendo.com                                    |
+| Challenge password       | Can be anything (`alpine` recommended for consistency) |
+| Optional company name    |                                                        |
+
+**5.** If the command has finished successfully, a new file named `server.csr` should have appeared in the same directory as the `NWC.p12` file. This is the new server certificate that will be used by the server to authenticate with the Nintendo DS. Before it can be used, it first needs to be signed by the `NWC.csr` certificate file and `NWC.key` key file. To do so, use the following command:
+
+`openssl x509 -req -in server.csr -CA NWC.crt -CAkey NWC.key -CAcreateserial -out server.crt -days 3650 -sha1`
+
+This certificate will be valid for 3650 days, or 10 years. This value may be changed to suit the needs of your server
+
+**6.** Once the newly created server certificate has been signed, the certificate and private key pair can be combined into one file for installation in the certificate store. To do so, use the following command to combine the two into a .pfx file:
+
+`openssl pkcs12 -export -inkey server.key -in server.crt -out server.pfx`
+
+When prompted to use an export password, anything can be used. However, `alpine` is recommended for consistency.
+
+**7.** If the command has finished successfully, a new file named `server.pfx` should have appeared in the same directory as the `NWC.p12` file. In order to install both certificates to the certificate store, double-click on both the `NWC.p12` and `server.pfx` files and going through the installation wizard for both. When asked for an export password, use `alpine` for the `NWC.p12` certificate and the password entered during the previous step for the `server.pfx` certificate. When asked to select the certificate store, select `Place all certificates in the following store` and select the `Personal` store. Once this has been done, the certificates are ready for use in whichever environment the user requires them.
+
+#### Production example
+Underneath is a code snippet containing a simple TCP listener with SSL authentication and certificate search functionality. The program starts by setting up the TCP listener and searching for the required certificates. This is done by providing the names of those who the certificate was issued to (`*.*.*` for the server certificate, `Wii NWC Prod 1` for the intermediate certificate). After a successfull setup, the program starts listening for incoming connections.
+
+Once a pending connection request has been detected, the server accepts the connection before retrieving the data stream and authenticating with the client. As noted earlier in this document, the server uses SSLv3 as the cryptographic protocol and provides the client with both the server certificate and the certificate chain. By providing both the server certificate and certificate chain, the Nintendo DS will be able to follow the chain of trust back to the Nintendo intermediate certificate and accept the connection.
+
+```c#
+using System.Net;
+using System.Net.Security;
+using System.Net.Sockets;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+
+namespace NdsSslConnection
+{
+    class Program
+    {
+        private static TcpListener _Listener;
+        private static X509Certificate2 _Certificate;
+        private static X509Certificate2Collection _CertificateChain = new X509Certificate2Collection();
+
+        static void Main(string[] args)
+        {
+            //Set up a TCP listener
+            _Listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 443);
+            _Listener.Start();
+
+            //Get the server certificate and intermediate certificate
+            GetServerCertificate("*.*.*");
+            GetAdditionalCertificate("Wii NWC Prod 1");
+
+            while (true)
+            {
+                //Wait for an incoming connection
+                if (_Listener.Pending())
+                {
+                    //Accept the incoming connection
+                    TcpClient Client = _Listener.AcceptTcpClient();
+
+                    //Authenticate with the client and get the stream
+                    SslStream ClientStream = GetStream(Client);
+
+                    //Wait for data to come in
+                    do { Task.Delay(100); }
+                    while (Client.Available == 0);
+
+                    //Read data
+                    byte[] Request = new byte[Client.Available];
+                    ClientStream.Read(Request, 0, Request.Length);
+
+                    //Print request to console
+                    string ConvertedRequest = Encoding.UTF8.GetString(Request);
+                    Console.WriteLine(ConvertedRequest);
+
+                    //Disconnect and clean up
+                    ClientStream.Close();
+                    Client.Close();
+                    Client.Dispose();
+                }
+                else
+                    Task.Delay(100);
+            }
+        }
+
+        /// <summary>
+        /// Gets the server certificate associated with this TCP listener instance.
+        /// </summary>
+        /// <param name="CertificateName">The name of the certificate to search for.</param>
+        /// <param name="StoreName">The name of the store to look in.</param>
+        /// <param name="StoreLocation">The location of the store to look in.</param>
+        static void GetServerCertificate(string CertificateName, StoreName StoreName = StoreName.My, StoreLocation StoreLocation = StoreLocation.CurrentUser) => _Certificate = GetCertificate(CertificateName, StoreName, StoreLocation);
+
+        /// <summary>
+        /// Gets additional certificates associated with this TCP listener instance and adds these in the certificate chain.
+        /// </summary>
+        /// <param name="CertificateName">The name of the certificate to search for.</param>
+        /// <param name="StoreName">The name of the store to look in.</param>
+        /// <param name="StoreLocation">The location of the store to look in.</param>
+        static void GetAdditionalCertificate(string CertificateName, StoreName StoreName = StoreName.My, StoreLocation StoreLocation = StoreLocation.CurrentUser) => _CertificateChain.Add(GetCertificate(CertificateName, StoreName, StoreLocation));
+
+        /// <summary>
+        /// Gets a X509 certificate by name from the provided store name and location.
+        /// </summary>
+        /// <param name="CertificateName">The name of the certificate to return.</param>
+        /// <param name="StoreName">The name of the store to search in.</param>
+        /// <param name="StoreLocation">The location of the store to search in.</param>
+        /// <returns></returns>
+        /// <exception cref="KeyNotFoundException">No certificate in the provided store matches the provided name</exception>
+        private static X509Certificate2 GetCertificate(string CertificateName, StoreName StoreName, StoreLocation StoreLocation)
+        {
+            X509Store Store = new X509Store(StoreName, StoreLocation);
+            Store.Open(OpenFlags.ReadOnly);
+
+            try
+            {
+                X509Certificate2Collection StoreCollection = Store.Certificates;
+                X509Certificate2Collection FoundCertificates = StoreCollection.Find(X509FindType.FindBySubjectName, CertificateName, false);
+                if (FoundCertificates.Count < 1)
+                    throw new KeyNotFoundException($"Could not find a certificate with name { CertificateName }. Make sure this certificate has been added to the selected certificate store (Store name: { StoreName }, Store location: { StoreLocation }).");
+                return FoundCertificates[0];
+            }
+            finally
+            {
+                Store.Close();
+            }
+        }
+
+        /// <summary>
+        /// Authenticates with the client and sets up a stream.
+        /// </summary>
+        /// <param name="Client">The client who to authenticate with.</param>
+        /// <returns>The authenticated SSL stream.</returns>
+        private static SslStream GetStream(TcpClient Client)
+        {
+            SslStream EncryptedStream = new SslStream(Client.GetStream(), false);
+            EncryptedStream.AuthenticateAsServer(new SslServerAuthenticationOptions
+            {
+                ServerCertificateContext = SslStreamCertificateContext.Create(_Certificate, _CertificateChain),
+                EnabledSslProtocols = SslProtocols.Ssl3,
+                ClientCertificateRequired = false
+            });
+            return EncryptedStream;
+        }
+    }
+}
+```
+
+### Conclusion
+
+## Sources
