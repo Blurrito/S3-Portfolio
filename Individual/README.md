@@ -43,7 +43,7 @@ Zooming in on the project once more shows that the central service consists of a
 ![Component model](https://i.imgur.com/n1G7kWj.png) 
 
 ### Frontend project
-[TBA]
+The front-end application is a web-based application. For this project, I used Vue, a component-based JavaScript framework. I chose this framework in particular because of it's resemblance to object oriented languages such as C# and it's relatively low entry barrier. In order to properly style the web application, a styling library named BootStrap is used, combined with minimal additional styling. For user authentication, the application makes use of Auth0.
 
 ### Backend project
 The back-end project consists of various microservices that are indirectly accessible through a gateway. All of the microservices use the .NET Core framework and thus are written in C#. Each microservice consists of either the first two or all three of the following layers:
@@ -57,9 +57,12 @@ In order to allow individual layers to freely be replaced/changed, abstraction h
 The goal of this learning outcome is to use a variety of tools to monitor the quality. This includes, testing, static code analisys and security.
 
 ### Security
-[TBA]
+In order to add an extra layer of security, I decided to add authentication to the front-end application. By requiring the user to authenticate themselves, endpoints in the back-end application can get restricted to only allow authenticated users to access them. In my application, I decided to go with Auth0.
+The front-end application sends the user to a login page hosted by Auth0, where they can login or register. After the user authenticates with the Auth0 server, they are returned to the front-end application, where they can then access pages that require the used to be authenticated.
 
-Two research documents, each about a topic related to the security of the Nintendo DS, can be found [here](https://github.com/Blurrito/S3-Portfolio/blob/main/Research/README.md).
+When the user sends a request to a protected endpoint in the back-end, the front-end application will provide an authorization token, which the back-end application verifies the validity of before allowing the request to be processed. This is done by adding the `[Authorize]` attribute to the route above an endpoint function.
+
+Furthermore, two research documents, each about a topic related to the security of the Nintendo DS, can be found [here](https://github.com/Blurrito/S3-Portfolio/blob/main/Research/README.md).
 
 ### Testing
 In order to validate the code's functionality and ability to handle unexpected scenarios, the code needs to be thorougly tested. For the back-end, I decided to make use of the Xunit testing framework as it's easy to set up and allows for easy input data manipulation to minimize the amount of test logic that needs to be rewritten. There are two types of tests I created: unit tests and integration tests. The unit tests are meant to be small and only test a single piece of functionality, whereas the integration tests are meant for testing an entire sequence of actions.
