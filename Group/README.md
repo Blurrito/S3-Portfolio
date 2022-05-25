@@ -1,4 +1,4 @@
-# Individual project
+# Group project
 
 ## Table of contents
 
@@ -29,13 +29,16 @@ In order to allow individual layers to freely be replaced/changed, abstraction h
 The goal of this learning outcome is to get an understanding of what Agile is, how it works and work with it in a project.
 
 ### What is Agile?
+Agile is a method of project management and software development. It aims to improve the workflow of a project by working in small, incremental periods of time where communication and evaluation of the collaboration, progress, issues and (unexpected) developments play a vital role. In doing so, it hopes to achieve an environment where all parties involved can quickly adjust to new situations.
+
+The agile method of working has been implemented in software engineering through the use of various Agile frameworks such as **Scrum**, **Kanban**, **Extreme Coding** and **Feature-Driven Development**, and common practices such as **pair-programming**, **test-driven development**, **stand-ups/downs** and **sprints**. The goal of these frameworks and working methods is to facilitate the people involved rather than the end result. It allows development teams to approach a project from various angles and disregard traditional roles and hiarchies in favour of involving those with the right skill set.
 
 ### What Agile method did we use?
 From the very start of the project, we decided to adopt an Agile method of working. Ultimately, we chose to use the SCRUM framework, because we judged it to be best suited for our software development project.
 
 At the start of each sprint, we would start planning ahead on what we would like to achieve in the next sprint. We would do this by writing new tasks on the sprint planning board for that sprint, prioritizing them and assign members to the ones that would be picked up immediately.
 
-Every day we worked on the group project, we would have a daily stand-up, in which we all discussed what everyone would be doing that day, the expected outcome at the end of the day and what we would need to get there. At the end of each day, we would also have a daily stand-down, where we discussed the progress we made, as well as possible roadblocks we encountered and update the sprint planning accordingly. We would then take this into account during the following day’s stand-up.
+Every day we worked on the group project, we would have a stand-up, in which we all discussed what everyone would be doing that day, the expected outcome at the end of the day and what we would need to get there. At the end of each day, we would also have a daily stand-down, where we discussed the progress we made, as well as possible roadblocks we encountered and update the sprint planning accordingly. We would then take this into account during the following day’s stand-up.
 
 At the end of each sprint, we would have a sprint review with the stakeholder in which we would present our progress and receive feedback. After this, we would have a retrospective in which we filtered through all feedback, decide what we would do with it and update our planning accordingly. We would also use this moment to discuss our teamwork, what went well and what we could do differently during the next sprint. 
 
