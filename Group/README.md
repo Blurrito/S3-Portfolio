@@ -8,6 +8,7 @@
 - [Agile method](#agile-method)
   * [What is Agile?](#what-is-agile)
   * [What Agile method did we use?](#what-agile-method-did-we-use)
+  * [What do I think of Agile?](#what-do-i-think-of-agile)
 - [Cultural differences and ethics](#cultural-differences-and-ethics)
   * [Ethics](#ethics)
     + [What is ethics in software engineering?](#what-is-ethics-in-software-engineering)
@@ -31,6 +32,7 @@
 - [Business process](#business-process)
   * [What is a business process?](#what-is-a-business-process)
   * [Analysis](#analysis)
+  * [How could this be used in other projects?](#-how-could-this-be-used-in-other-projects)
 - [Professional](#professional)
   * [Communication & feedback](#communication--feedback)
   * [Source control & code quality](#source-control--code-quality)
@@ -78,7 +80,12 @@ Every day we worked on the group project, we would have a stand-up, in which we 
 
 ![Task list](https://i.imgur.com/IrfNU3H.png)
 
-At the end of each sprint, we would have a sprint review with the stakeholder in which we would present our progress and receive feedback. After this, we would have a retrospective in which we filtered through all feedback, decide what we would do with it and update our planning accordingly. We would also use this moment to discuss our teamwork, what went well and what we could do differently during the next sprint. 
+At the end of each sprint, we would have a sprint review with the stakeholder in which we would present our progress and receive feedback. After this, we would have a retrospective in which we filtered through all feedback, decide what we would do with it and update our planning accordingly. We would also use this moment to discuss our teamwork, what went well and what we could do differently during the next sprint.
+
+### What do I think of Agile?
+As someone who has used the waterfall method in past educational projects, the modularity and ease at which Agile can be applied to a software development makes for a very pleasant change of phase. The lack of most roles introduces a sense of equality which is unrivaled, and allows for team members to be selected based on their skills instead, which I am a very big fan of. On top of this, the continuous communication between team members does not only improve the workflow (by knowing everyone's progress, roadblocks and uncertainties), but in my experience also helps tremendously with building up connections with the team members.
+
+While we certainly did not fully adhere to the Agile principles during our project (the lack of a concrete Definition of Done for the majority of the project for example), this did not impact my opinion of it in a negative way. I very much liked working using SCRUM as a base, and, when the time presents itself, would like to use it again in a different environment while attempting to rectify the mistakes made during this project.
 
 ## Cultural differences and ethics
 The goal of this learning outcome is to get an understanding of ethics and cultural differences, as well as their position and value in a software engineering environment.
@@ -116,7 +123,7 @@ In order to verify all software engineers’ ethical values match up, it is impo
 One of the ethical aspects in our group project that we faced was the licensing of third party libraries. As our project lives in a gray area between commercial and non-profit (the organization is a business, while the application is strictly for internal use without any direct link to generating profit), we contemplated whether purchasing a license for these libraries would be necessary.
 
 #### Do you foresee ethical conflicts caused by your software? What kind of?  
-I personally do not expect any ethical conflicts in our project.
+I personally do not expect any ethical conflicts in our project, as our application does not accepts little user input and no user generated data is stored in the database of the back-end application. The back-end application will also not accept any (purposefully) received incorrect/malformed information.
 
 #### Can you do something to avoid or minimize these conflicts? 
 Communicating regularly with one another is key in preventing (or solving) conflicts in a professional setting. Expressing one’s concerns and problems spreads awareness to all parties involved and allows them to seek out a solution together. It also minimizes the amount of misunderstandings that could potentially happen.
@@ -156,22 +163,26 @@ I'd like to think I am a hard-working individual who prefers to keep to himself,
 The goal of this learning outcome is to create, discuss and verify (functional) requirements and (architectural) designs.
 
 ### Requirements
-At the start of the project, we created a list of user stories, which would act as our requirements. Each user story would be disected into smaller tasks, which would then get implemented individually. We created a definition of done for each task, so the assigned team members could see what needed to be done while the others could easily view the progress.
+At the start of the project, we created a list of user stories, which would act as our requirements. Each user story would be disected into smaller tasks, which would then get implemented individually. We created a primitive list of requirements for each task, so the assigned team members could see what needed to be done while the others could easily view the progress.
 
 ![Partial user story list](https://user-images.githubusercontent.com/32673522/171046329-f0008016-af64-4870-a9ff-cad96b96b944.png)
 
-In order to verify the functional competence of the functions, we tested all functional components of the system. In my case, I wrote unit and integration tests for all back-end functions to verify this. The testing framework we decided on using for this is Xunit.
+During the first period of our project, we made the fatal mistake of not asking enough about what the stakeholder truly wanted, and worked based on the assumption of what he wanted as explained in the project description. Because of this mistake, we ultimately had to scrap most of our progress partway through the development process and start anew with thorougly questioning the stakeholder on what the problem he faced is, and what it is that he seeks in order to solve it.
+
+We then carefully filtered through the information we obtained from this meeting and created a first set of requirements that would help us get started with this second attempt (see [What Agile method did we use](#what-agile-method-did-we-use)). We would also increase the amount of meetings with the stakeholder to once per week, so we could show our progress, receive feedback and ask questions. This in turn significantly increased our understanding of what it is that we needed to create, as well as building a friendly relationship with the stakeholder. While we did not directly verify the list of requirements from our sprint board, we did verify whether or not we made the correct assumption and implemented the right thing during our meetings.
 
 ### Design
-During the span of the project, I made various architectural design choices within the back-end project. Two of those choices are the ORM we would end up using and the structure of the Data Access layer.
+While I was personally not involved with the (architectural) design of the front-end application. Instead, my focus and input was made in the back-end application, where I discussed and implemented various choices based on past experiences, the needs of the project and the opinions of both my group members and the stakeholder.
 
-At first, we used raw SQL queries to communicate with the database. However, having to write a new query for every action became bothersome rather fast. For this reason I suggested the use of an ORM, specifically Entity Framework as our back-end uses .NET Core and I personally had experience with using it before.
+One such design choice was **the implementation of the repository pattern**. During the early stages of the project, we worked with raw SQL queries, but quickly realized the poor maintainability and scalablilty of this approach. For this reason, I opted to implement an ORM to streamline the process and make the code shorter and more maintanable. However, I still wished to have the modularity of switching between different data storage mediums, should the need arise.
 
-However, in order to repalce the already existing SQL implementation with Entity Framework, the entire Data Access layer had to be rewritten. This cost us far more time than would have been necessary. In order to minimize the amount of time necessary to implement new ORM's, as well as to make the implementation of different server configurations easier, I decided to implement the repository pattern.
+In order to facilitate this desire, I decided to implement the repository pattern. This addition, while still defining the base functions for each data type stored in the database, would allow the developer to impelemt functionality for a new ORM with as little as a single new base repository class. The accompanying interfaces also allowed us to implement dependency inversion, globalizing the entire system.
 
-Finally, we had a discussion regarding the best way to determine the sensor nearest to another sensor. If an active sensor, for whatever reason, does not provide a temperature reading of it's own within the set time limit, the system should take the reading from the nearest sensor instead. We deviced two solutions for this. The first proposed solution involved comparing the coordinates of each sensor to that of the one with no temperature reading, then taking the one whose coordinates come closest to those numbers. The second proposed solution involved mathematically calculating the distance between the each of the sensors and the sensor with no temperature reading and taking the sensor whose resulting value is the lowest.
+Another design choice I made in conjunction with another group member was **the best method to determine the sensor closest to a specific set of coordinates**. At first, the stakeholder wanted to have any sensors who did not send any new data to instead copy the measured temperature of the sensor closest to it. In order to achieve this, we devised two different methods.
 
-After writing a solution using both methods, we came to the conclusion that calculating the distance resulted in the most elegant and maintainable code with no noticeable difference in performance. For this reason, we ended up implementing this method.
+The first method consisted of comparing the coordinates of each sensor to that of the one with no temperature reading, then taking the one whose coordinates come closest to those numbers. The second method consisted of mathematically calculating the distance between the each of the sensors and the sensor with no temperature reading and taking the sensor whose resulting value is the lowest. After discussing both methods and writing pieces of test code, we came to the conclusion that the second method was the most compact and maintainable.
+
+However, the introduction of this functionality would ultimately cause an issue for which the solution was not part of the scope of our project. When presenting our findings to the stakeholder along with an alternative solution, he made the decision to cut the feature. While the code does not serve it's original purplose any longer, it ultimately got reused for determining the sensors closest to the corners of the grid, which are needed by the front-end heatmap generator.
 
 ## Business process
 The goal of this learning outcome is to analyze and describe a business process related to the project.
@@ -191,6 +202,11 @@ As neither our group project, nor my own individual project have a true business
 ![Business process](https://media.discordapp.net/attachments/913358225724821534/978230657522204672/Picking.png?width=1440&height=208)
 
 The above flow-chart depicts the business process of ordering a product from an online webshop. The goal of the business process is to prepare the items listed in the customer's order for shipment, and starts after the order has been succesfully placed. Once the order has been assigned to an employee, they will start collecting the products listed in the order and scan these in order to update the inventory system. For each product, the storage location will be provided. If a particular product cannot be found at the designated location, the employee will mark the product as missing and continue with the next item on the list. Once all items have been collected, the employee will deliver the products to the shipment section, where they will be prepared for further transport.
+
+### How could this be used in other projects?
+As mentioned before, our project did not have a true business process, partially due to it's small scale and use only being for employees of the company the applicatio was made for. Having this said however, I definitely see the value of visualizing business processes in larger projects, where one or multiple end-users/subsystems are involved. Having a clear image of how a process should flow from start to end, as well as the possible points of failure and how to handle them helps with understanding what systems, employees or services are required for the user to get something of value out of it.
+
+I personally think that business processes are valuable pieces of information. And while I also believe they do not have a direct association with software development (and thus should not be the responsibility of a software engineer to create), it would certainly aid me in finding out what sort of software system(s) need to be built for the process to be completable, and I imagine the same is true for those in the business seats.
 
 ## Professional
 The goal of this learning outcome is to work in a professional manner as part of a group in a software development.
