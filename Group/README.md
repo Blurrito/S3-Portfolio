@@ -67,10 +67,16 @@ The goal of this learning outcome is to get an understanding of what Agile is, h
 ### What is Agile?
 [Agile](https://www.agilealliance.org/agile101/) is a method of project management and software development. It aims to improve the workflow of a project by working in small, incremental periods of time where communication and evaluation of the collaboration, progress, issues and (unexpected) developments play a vital role. In doing so, it hopes to achieve an environment where all parties involved can quickly adjust to new situations.
 
-The agile method of working has been implemented in software engineering through the use of various Agile frameworks such as **Scrum**, **Kanban**, **Extreme Coding** and **Feature-Driven Development**, and common practices such as **pair-programming**, **test-driven development**, **stand-ups/downs** and **sprints**. The goal of these frameworks and working methods is to facilitate the people involved rather than the end result. It allows development teams to approach a project from various angles and disregard traditional roles and hiarchies in favour of involving those with the right skill set.
+The agile method of working has been implemented in software engineering through the use of various Agile frameworks. Commonly used frameworks include:
+- **Scrum**: A beginner-friendly Agile framework where a team works in small iterations with much communication between the team members and with the stakeholder. 
+- **Kanban**: A framework with freedom at it's core. While the framework does include a planning board, the team is free to build on top of this as they see fit.
+- **Extreme Programming**: A programmer-oriented framework similar to Scrum. It implements a number of values and techniques that helps improve the workflow of software developers and improve the quality of the resulting code.
+- **Feature-Driven Development**: An Agile method that revolves around analyzing, designing, implementing and testing the features of a program.
+
+The goal of these frameworks and working methods is to facilitate the people involved rather than the end result. It allows development teams to approach a project from various angles and disregard traditional roles and hiarchies in favour of involving those with the right skill set. While each framework provides a base, common practices can be used to further build upon this base. Examples of common practices include **pair-programming**, **test-driven development**, **stand-ups/downs** and **sprints**.
 
 ### What Agile method did we use?
-From the very start of the project, we decided to adopt an Agile method of working. Ultimately, we chose to use the SCRUM framework, because we judged it to be best suited for our software development project.
+From the very start of the project, we decided to adopt an Agile method of working. Ultimately, we chose to use the SCRUM framework, because we judged it to be best suited for our software development project and easiest framework to get accustomed to.
 
 At the start of each sprint, we would start planning ahead on what we would like to achieve in the next sprint. We would do this by writing new tasks on the sprint planning board for that sprint, prioritizing them and assign members to the ones that would be picked up immediately.
 
@@ -81,6 +87,11 @@ Every day we worked on the group project, we would have a stand-up, in which we 
 ![Task list](https://i.imgur.com/IrfNU3H.png)
 
 At the end of each sprint, we would have a sprint review with the stakeholder in which we would present our progress and receive feedback. After this, we would have a retrospective in which we filtered through all feedback, decide what we would do with it and update our planning accordingly. We would also use this moment to discuss our teamwork, what went well and what we could do differently during the next sprint.
+
+#### What could we have done to improve our workflow?
+While we did work using the Agile method during this project, there are various areas in which we could have improved or added upon. One such area would be creating our definition of done. While we did have a list of requirements for each task to be implemented before it could be considered complete, we did not have a global definition that applied to all tasks. This in turn created lackluster quality control, with few to none tests being written.
+
+One thing I feel like we could have benefitted from if we had implemented it in our development process is pair programming. During our project, there were various occurrences of two people working on the same (or a closely related) task. With pair programming, both members could have given live feedback to one another while in turn learning about the other's coding style and the structure of the code they wrote. This in turn would have prevented a situation in our project where one of the two members working on the back-end project lost track of the code's functionality during the later stages of the project. 
 
 ### What do I think of Agile?
 As someone who has used the waterfall method in past educational projects, the modularity and ease at which Agile can be applied to a software development makes for a very pleasant change of phase. The lack of most roles introduces a sense of equality which is unrivaled, and allows for team members to be selected based on their skills instead, which I am a very big fan of. On top of this, the continuous communication between team members does not only improve the workflow (by knowing everyone's progress, roadblocks and uncertainties), but in my experience also helps tremendously with building up connections with the team members.
@@ -157,7 +168,9 @@ Food is another aspect that differs greatly between cultures. Ingredients such a
 The influence of religion on a culture is another thing that varies widely. Here in the Netherlands, while various religions are present within the country, none of them have a prominent role within the culture. This is in stark contrast to middle-east countries, where religion is woven deeply into the culture.
 
 #### What is your culture?
-I'd like to think I am a hard-working individual who prefers to keep to himself, but does not mind working together with a bit of pursuation. I prefer to ajust myself to new environments by carving out a space for myself.
+In an attempt to find out more about my personality/culture, I completed one of [Myers Briggs' personality tests](https://www.16personalities.com/free-personality-test) and viewed the results. The results of this test would suggest that I have the [architect personality type](https://www.16personalities.com/intj-personality), which is known for valuing intellect and rationality above all else, their independence and their hate for following others without reason. While I do doubt whether I qualify for the supposed inginuity this personality type is supposed to possess, most of the personality traits (thirst for knowledge, distant/possibly offensive to strangers, prefering to rely on skill) described feel very familiar.
+
+![PersonalityTestResults](https://user-images.githubusercontent.com/32673522/173200335-86a0ba73-e547-465a-bcaf-bd35f85e7834.png)
 
 ## Requirements and design
 The goal of this learning outcome is to create, discuss and verify (functional) requirements and (architectural) designs.
@@ -196,6 +209,10 @@ A business process starts with a goal, and finishes once the process reaces an o
 - **Support process**: A type of process that fulfills a supportive role in (one of) the core processes.
 
 Large/complex business processes can also be contain more specific/detailed sub-processes, which may be organized in one of the above categories as well.
+
+While business processes are most commonly visualized as flow charts, the form may vary widely. One example would be the flow chart as depicted in the [Analysis](#analysis) section of this document, which resembles a flow chart as seen in software development. Another type of chart that could be used to vizualize business processes is a **swimlane diagram**. Unlike flow charts, these diagrams visualizes a business process as a pool, where each lane represents a facility/system/person. The advantage of using this model is the ability to see who is responsible for what, as each task/decision is placed in the lane of the one responsible for it's completion. However, the disadvantage is that, with large amounts of actors or a large-scaled business process, the model could become convoluted quickly.
+
+![Swimlane diagram example](https://user-images.githubusercontent.com/32673522/173203603-072a994f-1523-43cd-af3f-0e718fad1986.png)
 
 ### Analysis
 As neither our group project, nor my own individual project have a true business process, I decided to make an analisys of a more generic business process.
