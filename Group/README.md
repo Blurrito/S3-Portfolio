@@ -147,6 +147,7 @@ Culture, as defined by Oxfort Languages, is the collective ideas, customs and so
 #### Which are well-known dimensions on cultural differences? 
 A variety of well-known lists of cultural dimensions exists. One such list is the [Trompenaar Model of Cultural Dimensions](https://expertprogrammanagement.com/2017/10/trompenaars-cultural-dimensions/). This model consists of seven dimensions which can be used to differentiate cultures by preference. Following is a list of these dimensions:
 
+```
 1. Universalism vs particularism - Defines whether rules or relationships matter more.
 2. Individualism vs communitarianism - Defines whether those of a certain culture prefer working alone or in teams.
 3. Specific vs diffuse - Defines how those of a certain culture differentiate between their personal and professional lifes.
@@ -154,6 +155,7 @@ A variety of well-known lists of cultural dimensions exists. One such list is th
 5. Achievement vs ascription - Defines whether status is achieved or given.
 6. Sequential time vs synchronous time - Defines whether those of a certain culture perform one task at a time or multiple tasks alongside one another.
 7. Internal direction vs. external direction - Defines whether or not people of a certain culture take control of the environment they live in, or if they let the environment control them.
+```
 
 #### Can you give examples for cultural differences that you have experienced in your study or life? How do you explain these differences?  
 While I have no notable experiences with different cultures, there are various differences between the Dutch culture and those of other countries.
