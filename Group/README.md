@@ -225,7 +225,7 @@ The above flow-chart depicts the business process of ordering a product from an 
 ### How could this be used in other projects?
 As mentioned before, our project did not have a true business process, partially due to it's small scale and use only being for employees of the company the applicatio was made for. Having this said however, I definitely see the value of visualizing business processes in larger projects, where one or multiple end-users/subsystems are involved. Having a clear image of how a process should flow from start to end, as well as the possible points of failure and how to handle them helps with understanding what systems, employees or services are required for the user to get something of value out of it.
 
-I personally think that business processes are valuable pieces of information. And while I also believe they do not have a direct association with software development (and thus should not be the responsibility of a software engineer to create), it would certainly aid me in finding out what sort of software system(s) need to be built for the process to be completable, and I imagine the same is true for those in the business seats.
+I personally think that business processes are valuable pieces of information. It gives me as a software developer a clear view into the process, which steps the process goes through from start to end and the people involved in it, and it would certainly aid me in finding out what sort of software system(s) need to be built for the process to be completable, and I imagine the same is true for those in the business seats.
 
 ## Professional
 The goal of this learning outcome is to work in a professional manner as part of a group in a software development.
