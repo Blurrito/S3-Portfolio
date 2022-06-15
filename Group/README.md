@@ -8,12 +8,16 @@
 - [Agile method](#agile-method)
   * [What is Agile?](#what-is-agile)
   * [What Agile method did we use?](#what-agile-method-did-we-use)
+    + [What could we have done to improve our workflow?](#what-could-we-have-done-to-improve-our-workflow)
+      - [Definition of Done](#definition-of-done)
+      - [Pair programming](#pair-programming)
   * [What do I think of Agile?](#what-do-i-think-of-agile)
 - [Cultural differences and ethics](#cultural-differences-and-ethics)
   * [Ethics](#ethics)
     + [What is ethics in software engineering?](#what-is-ethics-in-software-engineering)
     + [Why is ethics important in software engineering?](#why-is-ethics-important-in-software-engineering)
     + [What do you have to do as a software engineer to address ethical aspects in your work?](#what-do-you-have-to-do-as-a-software-engineer-to-address-ethical-aspects-in-your-work)
+      - [Which ethical guideline do I think is most important?](#which-ethical-guideline-do-i-think-is-most-important)
     + [How do you know that your ethical considerations match with those of other software engineers?](#how-do-you-know-that-your-ethical-considerations-match-with-those-of-other-software-engineers)
     + [Which ethical aspects play a role in your project?](#which-ethical-aspects-play-a-role-in-your-project)
     + [Do you foresee ethical conflicts caused by your software? What kind of?](#do-you-foresee-ethical-conflicts-caused-by-your-software-what-kind-of)
@@ -89,8 +93,11 @@ Every day we worked on the group project, we would have a stand-up, in which we 
 At the end of each sprint, we would have a sprint review with the stakeholder in which we would present our progress and receive feedback. After this, we would have a retrospective in which we filtered through all feedback, decide what we would do with it and update our planning accordingly. We would also use this moment to discuss our teamwork, what went well and what we could do differently during the next sprint.
 
 #### What could we have done to improve our workflow?
+
+##### Definition of Done
 While we did work using the Agile method during this project, there are various areas in which we could have improved or added upon. One such area would be creating our definition of done. While we did have a list of requirements for each task to be implemented before it could be considered complete, we did not have a global definition that applied to all tasks. This in turn created lackluster quality control, with few to none tests being written.
 
+##### Pair programming
 One thing I feel like we could have benefitted from if we had implemented it in our development process is pair programming. During our project, there were various occurrences of two people working on the same (or a closely related) task. With pair programming, both members could have given live feedback to one another while in turn learning about the other's coding style and the structure of the code they wrote. This in turn would have prevented a situation in our project where one of the two members working on the back-end project lost track of the code's functionality during the later stages of the project. 
 
 ### What do I think of Agile?
@@ -126,6 +133,8 @@ Within the software engineering space, a number of widely used ethical guideline
 7. COLLEAGUES – Software engineers shall be fair to and supportive of their colleagues.
 8. SELF – Software engineers shall participate in lifelong learning regarding the practice of their profession and shall promote an ethical approach to the practice of the profession.
 ```
+##### Which ethical guideline do I think is most important?
+While all eight of these principles are equally important, I personally think principle #3 is the most important of all of them. The product is that which will be used by the end user, be that an internal company employee or anyone on the internet. The ideas and values which were used to create the product, as well as the degree of professionalism and care put into the process could impact the user experience immensely. Depending on the type of product, if the end product is lacking in this regard, it could potentially have catastrophic effects on the end-user.
 
 #### How do you know that your ethical considerations match with those of other software engineers? 
 In order to verify all software engineers’ ethical values match up, it is important for all parties involved to converse about the topic. Allowing everyone to share their ethical values and boundaries with one another makes it possible to create a working environment in which all parties involved can work comfortably.
